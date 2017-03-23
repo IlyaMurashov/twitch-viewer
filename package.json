@@ -30,6 +30,8 @@
   "author": "Ilya Murashov",
   "license": "MIT",
   "dependencies": {
+    "jsonp": "0.2.1",
+    "jsonp-promise": "0.1.2",
     "object-assign": "4.1.0",
     "react": "15.4.1",
     "react-dom": "15.4.1",
