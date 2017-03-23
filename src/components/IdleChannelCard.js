@@ -1,6 +1,6 @@
 import React from 'react';
 
-const style = {color: 'yellow'};
+const style = {background: 'yellow'};
 
 export const IdleChannelCard = (props) => {
   return (

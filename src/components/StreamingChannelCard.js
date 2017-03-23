@@ -1,6 +1,6 @@
 import React from 'react';
 
-const style = {color: 'green'};
+const style = {background: 'green'};
 
 export const StreamingChannelCard = (props) => {
   return (

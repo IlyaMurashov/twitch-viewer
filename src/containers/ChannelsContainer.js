@@ -1,5 +1,5 @@
 import React from 'react';
-import {queryAll, queryStream, queryUser} from '../api/twitchApi';
+import {queryAll} from '../api/twitchApi';
 import {NotFoundChannelCard} from '../components/NotFoundChannelCard';
 import {IdleChannelCard} from '../components/IdleChannelCard';
 import {StreamingChannelCard} from '../components/StreamingChannelCard';
@@ -18,19 +18,24 @@ export default class ChannelsContainer extends React.Component {
     };
   }
 
-  addNotFoundUser(user) {
-    const newCard = <NotFoundChannelCard name={user} key={user}/>;
+  addNotFoundUser(response) {
+    const queried = response._queried;
+
+    const newCard = <NotFoundChannelCard name={queried} key={queried}/>;
 
     this.setState(prevState => ({
       notFoundChannels: [...prevState.notFoundChannels, newCard]
     }));
   }
 
-  addIdleStream(stream) {
+  addIdleStream(response) {
+    const queried = response._queried;
+    const displayName = response.user['display_name'];
+
     const newCard = <IdleChannelCard
-      name={stream['stream']['channel']['display_name']}
-      link=""
-      key={stream['stream']['channel']['display_name']}
+      name={displayName}
+      link={`https://twitch.tv/${queried}`}
+      key={queried}
     />;
 
     this.setState(prevState => ({
@@ -38,11 +43,14 @@ export default class ChannelsContainer extends React.Component {
     }));
   }
 
-  addActiveStream(stream) {
+  addActiveStream(response) {
+    const queried = response._queried;
+    const displayName = response.user['display_name'];
+
     const newCard = <StreamingChannelCard
-      name={stream['stream']['channel']['display_name']}
-      link=""
-      key={stream['stream']['channel']['display_name']}
+      name={displayName}
+      link={`https://twitch.tv/${queried}`}
+      key={queried}
     />;
 
     this.setState(prevState => ({
@@ -52,78 +60,18 @@ export default class ChannelsContainer extends React.Component {
 
   // TODO: move it to constructor()
   componentWillMount() {
-    const userMap = {};
-    const notFoundUsers = [];
-    const idleStreams = [];
-    const activeStreams = [];
-    this.state.trackedChannels.forEach((ch) => {
-      userMap[ch] = [queryUser(ch), queryStream(ch)];
-    });
-
-    for (let user in userMap) {
-      userMap[user][0]
-        .then((userData) => {
-          if (userData.error) {
-            notFoundUsers.push(user);
-            this.addNotFoundUser(user);
-            console.log("Not found: " + user);
-            return Promise.reject();
-          }
-          else {
-            return userMap[user][1];
-          }
-        })
-        .then(
-          (streamData) => {
-            if (streamData.stream === null) {
-              idleStreams.push(streamData);
-              this.addIdleStream(streamData);
-              console.log("Idle: " + user);
-            }
-            else {
-              activeStreams.push(streamData);
-              this.addActiveStream(streamData);
-              console.log("Streaming: " + user);
-            }
-          },
-          () => {
-            /* do nothing, just silence onReject */
-          });
-    }
-
-    notFoundUsers.sort((u1, u2) => u1.toLowerCase().localeCompare(u2.toLowerCase()));
-    idleStreams.sort((s1, s2) =>
-      s1['channel']['display_name'].toLowerCase().localeCompare(s2['channel']['display_name']));
-    activeStreams.sort((s1, s2) =>
-      s1['channel']['display_name'].toLowerCase().localeCompare(s2['channel']['display_name']));
-
-    const notFoundUserCards = notFoundUsers.map(u => (
-      <NotFoundChannelCard
-        name={u}
-        key={u}
-      />
-    ));
-
-    const idleCards = idleStreams.map(s => (
-      <IdleChannelCard
-        name={s['channel']['display_name']}
-        link=""
-        key={s['channel']['display_name']}
-      />
-    ));
-
-    const streamingCards = activeStreams.map(s => (
-      <StreamingChannelCard
-        name={s['channel']['display_name']}
-        link=""
-        key={s['channel']['display_name']}
-      />
-    ));
-
-    this.setState({
-      notFoundChannels: notFoundUserCards,
-      idleChannels: idleCards,
-      streamingChannels: streamingCards
+    this.state.trackedChannels.forEach((ch) =>{
+      queryAll(ch).then((response) => {
+        if (response.user.error) {
+          this.addNotFoundUser(response);
+        }
+        else if (response.stream.stream === null) {
+          this.addIdleStream(response);
+        }
+        else {
+          this.addActiveStream(response);
+        }
+      });
     });
   }
 

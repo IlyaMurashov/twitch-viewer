@@ -1,6 +1,6 @@
 import React from 'react';
 
-const style = {color: "red"};
+const style = {background: "red"};
 
 export const NotFoundChannelCard = (props) => {
   return (
