@@ -8,8 +8,6 @@ export default class ChannelsContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    queryAll('brunofin').then((data) => {console.log(data);});
-
     this.state = {
       trackedChannels: ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin"],
       notFoundChannels: [],
@@ -18,6 +16,22 @@ export default class ChannelsContainer extends React.Component {
     };
   }
 
+  // TODO: move it to constructor()
+  componentWillMount() {
+    this.state.trackedChannels.forEach((ch) => {
+      queryAll(ch).then((response) => {
+        if (response.user.error) {
+          this.addNotFoundUser(response);
+        }
+        else if (response.stream.stream === null) {
+          this.addIdleStream(response);
+        }
+        else {
+          this.addActiveStream(response);
+        }
+      });
+    });
+  }
   addNotFoundUser(response) {
     const queried = response._queried;
 
@@ -32,11 +46,12 @@ export default class ChannelsContainer extends React.Component {
     const queried = response._queried;
     const displayName = response.user['display_name'];
 
-    const newCard = <IdleChannelCard
-      name={displayName}
-      link={`https://twitch.tv/${queried}`}
-      key={queried}
-    />;
+    const newCard = (
+      <IdleChannelCard
+        name={displayName}
+        link={`https://twitch.tv/${queried}`}
+        key={queried}/>
+    );
 
     this.setState(prevState => ({
       idleChannels: [...prevState.idleChannels, newCard]
@@ -47,32 +62,16 @@ export default class ChannelsContainer extends React.Component {
     const queried = response._queried;
     const displayName = response.user['display_name'];
 
-    const newCard = <StreamingChannelCard
-      name={displayName}
-      link={`https://twitch.tv/${queried}`}
-      key={queried}
-    />;
+    const newCard = (
+      <StreamingChannelCard
+        name={displayName}
+        link={`https://twitch.tv/${queried}`}
+        key={queried}/>
+    );
 
     this.setState(prevState => ({
       streamingChannels: [...prevState.streamingChannels, newCard]
     }));
-  }
-
-  // TODO: move it to constructor()
-  componentWillMount() {
-    this.state.trackedChannels.forEach((ch) =>{
-      queryAll(ch).then((response) => {
-        if (response.user.error) {
-          this.addNotFoundUser(response);
-        }
-        else if (response.stream.stream === null) {
-          this.addIdleStream(response);
-        }
-        else {
-          this.addActiveStream(response);
-        }
-      });
-    });
   }
 
   render() {

@@ -1,10 +1,8 @@
 import React from 'react';
 
-const style = {background: "red"};
-
 export const NotFoundChannelCard = (props) => {
   return (
-    <div className="not-found-channel" style={style}>
+    <div className="channel-card__not-found">
       <p>{props.name}</p>
     </div>
   );

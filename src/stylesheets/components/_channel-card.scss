@@ -1,0 +1,24 @@
+
+.channel-card {
+  width: 95%;
+  height: 150px;
+  padding: 5px;
+  margin: 10px auto;
+  box-shadow: rgba(0, 0, 0, 0.156863) 0 3px 10px;
+}
+
+.channel-card__streaming {
+  @extend .channel-card;
+  background-color: darkseagreen;
+}
+
+.channel-card__idle {
+  @extend .channel-card;
+  background-color: #F7FF8E;
+}
+
+.channel-card__not-found {
+  @extend .channel-card;
+  background-color: palevioletred;
+  height: 50px;
+}

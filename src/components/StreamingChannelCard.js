@@ -1,10 +1,8 @@
 import React from 'react';
 
-const style = {background: 'green'};
-
 export const StreamingChannelCard = (props) => {
   return (
-    <div className="streaming-channel-card" style={style}>
+    <div className="channel-card__streaming">
       <p>{props.name}</p>
       <p>{props.link}</p>
     </div>

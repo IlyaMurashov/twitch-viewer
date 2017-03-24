@@ -1,10 +1,8 @@
 import React from 'react';
 
-const style = {background: 'yellow'};
-
 export const IdleChannelCard = (props) => {
   return (
-    <div className="idle-channel-card" style={style}>
+    <div className="channel-card__idle">
       <p>{props.name}</p>
       <p>{props.link}</p>
     </div>
