@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.user-logo-and-activity {
+  height: 100%;
+  width: 25%;
+  text-align: center;
+  display: inline-block;
+  float: left;
+
+  .user-logo-and-activity--user-logo {
+    height: auto;
+    width: 100%;
+  }
+
+  .user-logo-and-activity--activity-tag {
+    text-transform: uppercase;
+    color: white;
+    padding: 4px;
+    font: 900 50% 'Roboto', sans-serif;
+    display: inline-block;
+    border-radius: 5px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .user-logo-and-activity--activity-tag__active {
+    @extend .user-logo-and-activity--activity-tag;
+    background-color: rebeccapurple;
+  }
+
+  .user-logo-and-activity--activity-tag__inactive {
+    @extend .user-logo-and-activity--activity-tag;
+    background-color: dimgrey;
+  }
+
+}

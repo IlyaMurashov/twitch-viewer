@@ -41,7 +41,8 @@
 
 .channel-card__not-found {
   @extend .channel-card;
-  background-color: palevioletred;
+  background-color: red;
+  color: white;
   height: auto;
 
   .channel-card--message__not-found {

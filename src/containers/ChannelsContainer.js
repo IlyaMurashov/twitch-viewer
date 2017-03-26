@@ -5,8 +5,8 @@ import {ChannelCard} from '../components/ChannelCard';
 import {ControlBar} from '../components/ControlBar';
 
 export default class ChannelsContainer extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
       trackedChannels: ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin", "too_panda"],
@@ -21,7 +21,6 @@ export default class ChannelsContainer extends React.Component {
     this.handleControlEvents = this.handleControlEvents.bind(this);
   }
 
-  // TODO: move it to constructor()
   componentWillMount() {
     this.state.trackedChannels.forEach((ch) => {
       queryAll(ch).then((response) => {
@@ -119,5 +118,3 @@ export default class ChannelsContainer extends React.Component {
     );
   }
 }
-
-ChannelsContainer.propTypes = {};

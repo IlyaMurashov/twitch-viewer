@@ -6,7 +6,7 @@ import {ActivityTag} from './ActivityTag';
 export const ChannelCard = (props) => {
   return (
     <div className="channel-card">
-      <div className="user-logo-and-activity-wrapper">
+      <div className="user-logo-and-activity">
         <UserLogo userLogo={props.userLogo}/>
         <ActivityTag isActive={props.isStreaming}/>
       </div>
