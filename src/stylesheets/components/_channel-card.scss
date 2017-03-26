@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Russo+One');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 .channel-card {
   width: 95%;
@@ -5,20 +7,46 @@
   padding: 5px;
   margin: 10px auto;
   box-shadow: rgba(0, 0, 0, 0.156863) 0 3px 10px;
-}
+  background-color: white;
 
-.channel-card__streaming {
-  @extend .channel-card;
-  background-color: darkseagreen;
-}
+  .channel-card--info-wrapper {
+    width: 75%;
+    display: inline-block;
+    padding-left: 10px;
 
-.channel-card__idle {
-  @extend .channel-card;
-  background-color: #F7FF8E;
+    p {
+      margin:0
+    }
+
+    .channel-card--followers {
+      display: inline-block;
+    }
+
+    .channel-card--user-name {
+      font: 125% 'Russo One', sans-serif;
+    }
+
+    .channel-card--status {
+      font: italic bold 65% sans-serif;
+    }
+
+    .channel-card--streaming {
+      font-family: 'Roboto', sans-serif;
+      position: absolute;
+      top: 50px;
+    }
+  }
+
 }
 
 .channel-card__not-found {
   @extend .channel-card;
   background-color: palevioletred;
-  height: 50px;
+  height: auto;
+
+  .channel-card--message__not-found {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
 }

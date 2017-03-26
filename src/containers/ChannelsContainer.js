@@ -1,15 +1,14 @@
 import React from 'react';
 import {queryAll} from '../api/twitchApi';
 import {NotFoundChannelCard} from '../components/NotFoundChannelCard';
-import {IdleChannelCard} from '../components/IdleChannelCard';
-import {StreamingChannelCard} from '../components/StreamingChannelCard';
+import {ChannelCard} from '../components/ChannelCard';
 
 export default class ChannelsContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      trackedChannels: ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin"],
+      trackedChannels: ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin", "too_panda"],
       notFoundChannels: [],
       idleChannels: [],
       streamingChannels: []
@@ -32,6 +31,7 @@ export default class ChannelsContainer extends React.Component {
       });
     });
   }
+
   addNotFoundUser(response) {
     const queried = response._queried;
 
@@ -45,12 +45,17 @@ export default class ChannelsContainer extends React.Component {
   addIdleStream(response) {
     const queried = response._queried;
     const displayName = response.user['display_name'];
+    const userLogo = response.user['logo'];
+    const status = response.channel['status'];
 
     const newCard = (
-      <IdleChannelCard
+      <ChannelCard
+        key={queried}
         name={displayName}
+        isStreaming={false}
         link={`https://twitch.tv/${queried}`}
-        key={queried}/>
+        userLogo={userLogo}
+        status={status}/>
     );
 
     this.setState(prevState => ({
@@ -61,12 +66,21 @@ export default class ChannelsContainer extends React.Component {
   addActiveStream(response) {
     const queried = response._queried;
     const displayName = response.user['display_name'];
+    const userLogo = response.user['logo'];
+    const game = response.stream.stream['game'];
+    const status = response.channel['status'];
+    const fps = parseInt(response.stream.stream['average_fps']);
 
     const newCard = (
-      <StreamingChannelCard
+      <ChannelCard
+        key={queried}
         name={displayName}
+        isStreaming={true}
         link={`https://twitch.tv/${queried}`}
-        key={queried}/>
+        userLogo={userLogo}
+        game={game}
+        status={status}
+        fps={fps}/>
     );
 
     this.setState(prevState => ({

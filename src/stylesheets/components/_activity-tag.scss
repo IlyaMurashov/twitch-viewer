@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.activity-tag {
+  text-transform: uppercase;
+  color: white;
+  padding: 4px;
+  font: 900 50% 'Roboto', sans-serif;
+  display: inline-block;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.activity-tag__active {
+  @extend .activity-tag;
+  background-color: rebeccapurple;
+}
+
+.activity-tag__inactive {
+  @extend .activity-tag;
+  background-color: dimgrey;
+}
