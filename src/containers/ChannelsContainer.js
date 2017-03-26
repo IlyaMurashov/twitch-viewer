@@ -2,6 +2,7 @@ import React from 'react';
 import {queryAll} from '../api/twitchApi';
 import {NotFoundChannelCard} from '../components/NotFoundChannelCard';
 import {ChannelCard} from '../components/ChannelCard';
+import {ControlBar} from '../components/ControlBar';
 
 export default class ChannelsContainer extends React.Component {
   constructor(props, context) {
@@ -11,8 +12,13 @@ export default class ChannelsContainer extends React.Component {
       trackedChannels: ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin", "too_panda"],
       notFoundChannels: [],
       idleChannels: [],
-      streamingChannels: []
+      streamingChannels: [],
+      showStreaming: true,
+      showIdle: true,
+      showNotFound: false
     };
+
+    this.handleControlEvents = this.handleControlEvents.bind(this);
   }
 
   // TODO: move it to constructor()
@@ -29,6 +35,16 @@ export default class ChannelsContainer extends React.Component {
           this.addActiveStream(response);
         }
       });
+    });
+  }
+
+  handleControlEvents(event) {
+    const target = event.target;
+    const value = target.checked;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
     });
   }
 
@@ -91,9 +107,14 @@ export default class ChannelsContainer extends React.Component {
   render() {
     return (
       <div className="channels-container">
-        {this.state.streamingChannels}
-        {this.state.idleChannels}
-        {this.state.notFoundChannels}
+        <ControlBar
+          showStreaming={this.state.showStreaming}
+          showIdle={this.state.showIdle}
+          showNotFound={this.state.showNotFound}
+          handleControlEvents={this.handleControlEvents}/>
+        {this.state.showStreaming && this.state.streamingChannels}
+        {this.state.showIdle && this.state.idleChannels}
+        {this.state.showNotFound && this.state.notFoundChannels}
       </div>
     );
   }
