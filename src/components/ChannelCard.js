@@ -6,12 +6,17 @@ import {ActivityTag} from './ActivityTag';
 export const ChannelCard = (props) => {
   return (
     <div className="channel-card">
+
       <div className="user-logo-and-activity">
         <UserLogo userLogo={props.userLogo}/>
         <ActivityTag isActive={props.isStreaming}/>
       </div>
       <div className="channel-card--info-wrapper">
-        <p className="channel-card--user-name">{props.name}</p>
+        <a className="channel-card--user-name"
+           href={props.link}
+           target="_blank">
+          {props.name}
+        </a>
         {props.status &&
         <p className="channel-card--status">{props.status}</p>
         }
@@ -20,8 +25,7 @@ export const ChannelCard = (props) => {
         }
       </div>
     </div>
-  )
-    ;
+  );
 };
 
 ChannelCard.propTypes = {

@@ -24,6 +24,20 @@
 
     .channel-card--user-name {
       font: 125% 'Russo One', sans-serif;
+      text-decoration: none;
+    }
+
+    .channel-card--user-name:link {
+      color: black;
+    }
+
+    .channel-card--user-name:visited {
+      color: black;
+    }
+
+    .channel-card--user-name:hover {
+      color: rebeccapurple;
+      text-decoration: underline;
     }
 
     .channel-card--status {
@@ -36,7 +50,10 @@
       top: 50px;
     }
   }
+}
 
+.channel-card:hover {
+  box-shadow: rgba(102, 51, 153, 0.5) 0 5px 15px;
 }
 
 .channel-card__not-found {
